@@ -7,11 +7,13 @@
 namespace NBug.Core.Reporting
 {
 	using System;
+	using System.Diagnostics;
 	using System.IO;
 	using System.Xml.Serialization;
 
 	using NBug.Core.Reporting.Info;
 	using NBug.Core.Reporting.MiniDump;
+	using NBug.Core.Submission;
 	using NBug.Core.UI;
 	using NBug.Core.Util;
 	using NBug.Core.Util.Logging;
@@ -47,6 +49,8 @@ namespace NBug.Core.Reporting
 				if (uiDialogResult.Report == SendReport.Send)
 				{
 					this.CreateReportZip(serializableException, report);
+					Dispatcher.Start();
+					Dispatcher.WaitForExit();
 				}
 
 				return uiDialogResult.Execution;

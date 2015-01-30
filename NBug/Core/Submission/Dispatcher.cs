@@ -17,49 +17,50 @@ namespace NBug.Core.Submission
 	using NBug.Core.Util.Serialization;
 	using NBug.Core.Util.Storage;
 
-	internal class Dispatcher
+	public static class Dispatcher
 	{
+		private static CancellationTokenSource cancellationTokenSource;
+
+		private static CancellationToken cancellationToken;
+
+		private static Task task;
+
 		/// <summary>
 		/// Initializes a new instance of the Dispatcher class to send queued reports.
 		/// </summary>
 		/// <param name="isAsynchronous">
 		/// Decides whether to start the dispatching process asynchronously on a background thread.
 		/// </param>
-		internal Dispatcher(bool isAsynchronous)
+		public static void Start()
 		{
 			// Test if it has NOT been more than x many days since entry assembly was last modified)
 			// This is the exact verifier code in the BugReport.cs of CreateReportZip() function
-			if (Settings.StopReportingAfter < 0
-			    || File.GetLastWriteTime(Settings.EntryAssembly.Location).AddDays(Settings.StopReportingAfter).CompareTo(DateTime.Now) > 0)
+			if (Settings.StopReportingAfter >= 0
+				&& File.GetLastWriteTime(Settings.EntryAssembly.Location)
+					   .AddDays(Settings.StopReportingAfter)
+					   .CompareTo(DateTime.Now) <= 0)
 			{
-				if (isAsynchronous)
-				{
-					// Log and swallow NBug's internal exceptions by default
-					Task.Factory.StartNew(this.Dispatch)
-					    .ContinueWith(
-						    t => Logger.Error("An exception occurred while dispatching bug report. Check the inner exception for details", t.Exception), 
-						    TaskContinuationOptions.OnlyOnFaulted);
-				}
-				else
-				{
-					try
-					{
-						this.Dispatch();
-					}
-					catch (Exception exception)
-					{
-						Logger.Error("An exception occurred while dispatching bug report. Check the inner exception for details.", exception);
-					}
-				}
+				Logger.Info("Dispatcher not needed");
+				return;
 			}
-			else
+
+			if (task != null && 
+				(task.Status == TaskStatus.Running 
+				|| task.Status == TaskStatus.WaitingForActivation
+				|| task.Status == TaskStatus.WaitingToRun))
 			{
-				// ToDo: Cleanout all the remaining report files and disable NBug completely
+				cancellationTokenSource.Cancel();
 			}
+
+			cancellationTokenSource = new CancellationTokenSource();
+			cancellationToken = cancellationTokenSource.Token;
+			task = Task.Factory.StartNew(Dispatch, cancellationToken).ContinueWith(t => Logger.Error("An exception occurred while dispatching bug report. Check the inner exception for details", t.Exception), TaskContinuationOptions.OnlyOnFaulted);
 		}
 
-		private void Dispatch()
+		private static void Dispatch()
 		{
+			Logger.Info(string.Format("Dispatcher started ThreadId={0}", Thread.CurrentThread.ManagedThreadId));
+
 			// Make sure that we are not interfering with the crucial startup work);
 			if (!Settings.RemoveThreadSleep)
 			{
@@ -70,38 +71,44 @@ namespace NBug.Core.Submission
 			Storer.TruncateReportFiles();
 
 			// Now go through configured destinations and submit to all automatically
-			for (var hasReport = true; hasReport;)
+			while (true)
 			{
+				cancellationToken.ThrowIfCancellationRequested();
+
 				using (var storer = new Storer())
 				using (var stream = storer.GetFirstReportFile())
 				{
 					if (stream != null)
-					{
+					{   
 						// Extract crash/exception report data from the zip file. Delete the zip file if no data can be retrieved (i.e. corrupt file)
-					  ExceptionData exceptionData;
-					  try
-					  {
-              exceptionData = this.GetDataFromZip(stream);
-					  }
-            catch (Exception exception)
-					  {
-              storer.DeleteCurrentReportFile();
-              Logger.Error("An exception occurred while extraction report data from zip file. Check the inner exception for details.", exception);
-					    return;
-					  }
-            
-            // Now submit the report file to all configured bug report submission targets
-						if (this.EnumerateDestinations(stream, exceptionData) == false)
+						ExceptionData exceptionData;
+						try
 						{
-							break;
+							exceptionData = GetDataFromZip(stream);
+						}
+						catch (Exception exception)
+						{
+							storer.DeleteCurrentReportFile();
+							Logger.Error("An exception occurred while extraction report data from zip file. Check the inner exception for details.", exception);
+							continue;
 						}
 
-						// Delete the file after it was sent
-						storer.DeleteCurrentReportFile();
+						var message = string.Format(
+							"Dispatcher ThreadId={0} sends {1}",
+							Thread.CurrentThread.ManagedThreadId, 
+							exceptionData.Report.GeneralInfo.UserDescription);
+						Logger.Info(message);
+
+						// Now submit the report file to all configured bug report submission targets
+						if (EnumerateDestinations(stream, exceptionData))
+						{
+							storer.DeleteCurrentReportFile();
+						}
 					}
 					else
 					{
-						hasReport = false;
+						Logger.Info(string.Format("Dispatcher ended ThreadId={0}", Thread.CurrentThread.ManagedThreadId));
+						return;
 					}
 				}
 			}
@@ -114,7 +121,7 @@ namespace NBug.Core.Submission
 		/// <param name="reportFile">The file to read the report from.</param>
 		/// <returns>Returns <see langword="true"/> if the sending was successful.
 		/// Returns <see langword="true"/> if the report was submitted to at least one destination.</returns>
-		private bool EnumerateDestinations(Stream reportFile, ExceptionData exceptionData)
+		private static bool EnumerateDestinations(Stream reportFile, ExceptionData exceptionData)
 		{
 			var sentSuccessfullyAtLeastOnce = false;
 			var fileName = Path.GetFileName(((FileStream)reportFile).Name);
@@ -131,7 +138,7 @@ namespace NBug.Core.Submission
 				catch (Exception exception)
 				{
 					Logger.Error(
-						string.Format("An exception occurred while submitting bug report with {0}. Check the inner exception for details.", destination.GetType().Name), 
+						string.Format("An exception occurred while submitting bug report with {0}. Check the inner exception for details.", destination.GetType().Name),
 						exception);
 				}
 			}
@@ -139,7 +146,7 @@ namespace NBug.Core.Submission
 			return sentSuccessfullyAtLeastOnce;
 		}
 
-		private ExceptionData GetDataFromZip(Stream stream)
+		private static ExceptionData GetDataFromZip(Stream stream)
 		{
 			var results = new ExceptionData();
 			var zipStorer = ZipStorer.Open(stream, FileAccess.Read);
@@ -177,6 +184,20 @@ namespace NBug.Core.Submission
 			public SerializableException Exception { get; set; }
 
 			public Report Report { get; set; }
+		}
+
+		public static void WaitForExit()
+		{
+			if (task != null)
+			{
+				try
+				{
+					task.Wait();
+				}
+				catch
+				{
+				}
+			}    
 		}
 	}
 }

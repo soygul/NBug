@@ -37,22 +37,28 @@ namespace NBug.Core.Util.Logging
     /// {/configuration}
     /// </code>
     /// </example>
-    internal static class Logger
+    public static class Logger
     {
         [DebuggerStepThrough()]
         static Logger()
         {
             if (Settings.WriteLogToDisk)
             {
-                LogWritten +=
-                    (message, category) => File.AppendAllText(Path.Combine(Settings.NBugDirectory, "NBug.log"), category + ": " + message + Environment.NewLine);
+                LogWritten += WriteNBugLog;                    
             }
+        }
+
+        private static void WriteNBugLog(string message, LoggerCategory category)
+        {
+            var fileName = Path.Combine(Settings.NBugDirectory, "NBug.log");
+            var newLine = string.Format("{0}: {1}{2}", category, message, Environment.NewLine);
+            File.AppendAllText(fileName, newLine);
         }
 
         /// <summary>
         /// First parameters is message string, second one is the category.
         /// </summary>
-        internal static event Action<string, LoggerCategory> LogWritten;
+        public static event Action<string, LoggerCategory> LogWritten;
 
         [DebuggerStepThrough()]
         internal static void Error(string message)

@@ -48,7 +48,7 @@
     <DocumentationFile>bin\Release\NBug.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\Signing.snk</AssemblyOriginatorKeyFile>
@@ -68,9 +68,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs">
-      <Link>Properties\GlobalAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="Core\Submission\Custom\Custom.cs" />
     <Compile Include="Core\Submission\IProtocol.cs" />
     <Compile Include="Core\Submission\IProtocolFactory.cs" />

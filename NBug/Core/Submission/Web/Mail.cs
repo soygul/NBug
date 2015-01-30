@@ -7,7 +7,9 @@
 namespace NBug.Core.Submission.Web
 {
 	using System;
+	using System.Diagnostics;
 	using System.IO;
+	using System.Linq.Expressions;
 	using System.Net;
 	using System.Net.Mail;
 
@@ -128,70 +130,91 @@ namespace NBug.Core.Submission.Web
 				this.UseAuthentication = true;
 			}
 
-			using (var smtpClient = new SmtpClient())
-			using (var message = new MailMessage())
+			SmtpClient smtpClient = null;
+			try
 			{
-				if (!string.IsNullOrEmpty(this.SmtpServer))
+				smtpClient = new SmtpClient();
+
+				using (var message = new MailMessage())
 				{
-					smtpClient.Host = this.SmtpServer;
+					if (!string.IsNullOrEmpty(this.SmtpServer))
+					{
+						smtpClient.Host = this.SmtpServer;
+					}
+
+					smtpClient.Port = this.Port;
+
+					if (this.UseAuthentication)
+					{
+						smtpClient.Credentials = new NetworkCredential(this.Username, this.Password);
+					}
+
+					smtpClient.EnableSsl = this.UseSsl;
+
+					if (!string.IsNullOrEmpty(this.Cc))
+					{
+						message.CC.Add(this.Cc);
+					}
+
+					if (!string.IsNullOrEmpty(this.Bcc))
+					{
+						message.Bcc.Add(this.Bcc);
+					}
+
+					message.Priority = this.Priority;
+
+					message.To.Add(this.To);
+					message.ReplyToList.Add(this.ReplyTo);
+					message.From = !string.IsNullOrEmpty(this.FromName)
+									   ? new MailAddress(this.From, this.FromName)
+									   : new MailAddress(this.From);
+
+					if (this.UseAttachment)
+					{
+						// ToDo: Report file name should be attached to the report file object itself, file shouldn't be accessed directly!
+						file.Position = 0;
+						message.Attachments.Add(new Attachment(file, fileName));
+					}
+
+					if (!string.IsNullOrEmpty(this.CustomSubject))
+					{
+						message.Subject = this.CustomSubject;
+					}
+					else
+					{
+						message.Subject = "NBug: " + report.GeneralInfo.HostApplication + " ("
+										  + report.GeneralInfo.HostApplicationVersion + "): "
+										  + report.GeneralInfo.ExceptionType + " @ " + report.GeneralInfo.TargetSite;
+					}
+
+					if (!string.IsNullOrEmpty(this.CustomBody))
+					{
+						message.Body = this.CustomBody + Environment.NewLine + Environment.NewLine + report
+									   + Environment.NewLine + Environment.NewLine + exception;
+					}
+					else
+					{
+						message.Body = report + Environment.NewLine + Environment.NewLine + exception;
+					}
+
+					smtpClient.Send(message);
+					Logger.Trace("Submitted bug report email to: " + this.To);
+
+					return true;
 				}
-
-				smtpClient.Port = this.Port;
-
-				if (this.UseAuthentication)
-				{
-					smtpClient.Credentials = new NetworkCredential(this.Username, this.Password);
-				}
-
-				smtpClient.EnableSsl = this.UseSsl;
-
-				if (!string.IsNullOrEmpty(this.Cc))
-				{
-					message.CC.Add(this.Cc);
-				}
-
-				if (!string.IsNullOrEmpty(this.Bcc))
-				{
-					message.Bcc.Add(this.Bcc);
-				}
-
-				message.Priority = this.Priority;
-
-				message.To.Add(this.To);
-				message.ReplyToList.Add(this.ReplyTo);
-				message.From = !string.IsNullOrEmpty(this.FromName) ? new MailAddress(this.From, this.FromName) : new MailAddress(this.From);
-
-				if (this.UseAttachment)
-				{
-					// ToDo: Report file name should be attached to the report file object itself, file shouldn't be accessed directly!
-					file.Position = 0;
-					message.Attachments.Add(new Attachment(file, fileName));
-				}
-
-				if (!string.IsNullOrEmpty(this.CustomSubject))
-				{
-					message.Subject = this.CustomSubject;
-				}
-				else
-				{
-					message.Subject = "NBug: " + report.GeneralInfo.HostApplication + " (" + report.GeneralInfo.HostApplicationVersion + "): "
-					                  + report.GeneralInfo.ExceptionType + " @ " + report.GeneralInfo.TargetSite;
-				}
-
-				if (!string.IsNullOrEmpty(this.CustomBody))
-				{
-					message.Body = this.CustomBody + Environment.NewLine + Environment.NewLine + report + Environment.NewLine + Environment.NewLine + exception;
-				}
-				else
-				{
-					message.Body = report + Environment.NewLine + Environment.NewLine + exception;
-				}
-
-				smtpClient.Send(message);
-				Logger.Trace("Submitted bug report email to: " + this.To);
-
-				return true;
 			}
+			catch (Exception ex)
+			{
+				Logger.Trace(ex.ToString());
+			}
+			finally
+			{
+				if (smtpClient != null)
+				{
+					smtpClient.Dispose();
+				}
+			}
+			return false;
 		}
 	}
 }

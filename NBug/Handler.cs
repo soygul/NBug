@@ -27,7 +27,7 @@ namespace NBug
 			// Submit any queued reports on a seperate thread asynchronously, while exceptions handlers are being set);
 			if (!Settings.SkipDispatching)
 			{
-				new Dispatcher(Settings.DispatcherIsAsynchronous);
+				Dispatcher.Start();
 			}
 		}
 
