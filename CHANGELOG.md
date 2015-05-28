@@ -3,6 +3,7 @@
 *TBD*
 
 * Handle invalid/corrupt report files gracefully.
+* Exception report sent to the developer is always in English rather than user's language.
 
 # 1.2.2
 
