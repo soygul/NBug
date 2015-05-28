@@ -21,7 +21,7 @@ NBug.Settings.Destination1 = "Type=Mail;From=me@mycompany.com;To=bugtracker@myco
 AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
 ```
 
-After this, any unhandled exception will be zipped and sent to the configured e-mail address, after the app is restarted by the user.
+After this, any unhandled exception will be formatted and sent to the configured e-mail address, after the app is restarted by the user.
 
 ## Questions
 You can post your question on StackOverflow with NBug tag: http://stackoverflow.com/questions/tagged/nbug
