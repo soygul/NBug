@@ -8,7 +8,7 @@ It can also be set up as a user feedback system (i.e. feature requests).
 ## Quickstart
 Read the quickstart here: http://www.soygul.com/nbug/
 
-In a typical scenario all you need is to add the NuGet package (or compile and use the `NBug.dll` directly, which is more up-to-date) and add following to your application's `Program.cs` file (assuming it is a console app):
+In a typical scenario all you need is to add the NuGet package (or compile and use the `NBug.dll` directly, which is always more up-to-date) and add following to your application's `Program.cs` file (assuming it is a console app):
 
 ```csharp
 // Uncomment the following after testing to see that NBug is working as configured
