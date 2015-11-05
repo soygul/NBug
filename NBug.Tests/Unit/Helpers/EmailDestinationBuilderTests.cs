@@ -10,6 +10,12 @@
   public class EmailDestinationBuilderTests
   {
     private const string ServerName = "smtp.test.com";
+    
+    [Fact]
+    public void TravisFailTest()
+    {
+      Assert.Equal(true, false);
+    }
 
     [Fact]
     public void BuildAttachmentsAndServerOptionsWithPort_PreparesCorrectDestination()
