@@ -63,8 +63,20 @@ namespace NBug.Core.Reporting
 		{
 			foreach (var mask in Settings.AdditionalReportFiles)
 			{
+                var splitMask = mask.Split(';');
+                var path = splitMask[0];
+                FileShare shareOption = FileShare.Read;
+                for (int i = 1; i < splitMask.Length; i++) 
+                { 
+                    var option = splitMask[i].Split('=');
+                    if (option[0].Equals("share"))
+                    {
+                        shareOption = (FileShare)Enum.Parse(typeof(FileShare), option[1], true);
+                    }
+                }
+
 				// Join before spliting because the mask may have some folders inside it
-				var fullPath = Path.Combine(Settings.NBugDirectory, mask);
+                var fullPath = Path.Combine(Settings.NBugDirectory, path);
 				var dir = Path.GetDirectoryName(fullPath);
 				var file = Path.GetFileName(fullPath);
 
@@ -77,18 +89,18 @@ namespace NBug.Core.Reporting
 				{
 					foreach (var item in Directory.GetFiles(dir, file))
 					{
-						this.AddToZip(zipStorer, Settings.NBugDirectory, item);
+                        this.AddToZip(zipStorer, Settings.NBugDirectory, item, shareOption);
 					}
 				}
 				else
 				{
-					this.AddToZip(zipStorer, Settings.NBugDirectory, fullPath);
+                    this.AddToZip(zipStorer, Settings.NBugDirectory, fullPath, shareOption);
 				}
 			}
 		}
 
 		// ToDo: PRIORITY TASK! This code needs more testing & condensation
-		private void AddToZip(ZipStorer zipStorer, string basePath, string path)
+        private void AddToZip(ZipStorer zipStorer, string basePath, string path, FileShare share)
 		{
 			path = Path.GetFullPath(path);
 
@@ -102,12 +114,12 @@ namespace NBug.Core.Reporting
 			{
 				foreach (var file in Directory.GetFiles(path))
 				{
-					this.AddToZip(zipStorer, basePath, file);
+                    this.AddToZip(zipStorer, basePath, file, share);
 				}
 
 				foreach (var dir in Directory.GetDirectories(path))
 				{
-					this.AddToZip(zipStorer, basePath, dir);
+                    this.AddToZip(zipStorer, basePath, dir, share);
 				}
 			}
 			else if (File.Exists(path))
@@ -120,7 +132,7 @@ namespace NBug.Core.Reporting
 
 				nameInZip = Path.Combine("files", nameInZip);
 
-				zipStorer.AddFile(ZipStorer.Compression.Deflate, path, nameInZip, string.Empty);
+                zipStorer.AddFile(ZipStorer.Compression.Deflate, path, nameInZip, string.Empty, share);
 			}
 		}
 
