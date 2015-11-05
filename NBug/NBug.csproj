@@ -106,6 +106,7 @@
     <Compile Include="Core\UI\WinForms\Panels\ExceptionDetails.Designer.cs">
       <DependentUpon>ExceptionDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\Util\Storage\AdditionalFiles.cs" />
     <Compile Include="Core\Util\Web\StreamUpload.cs" />
     <Compile Include="Core\Util\ConnectionStringParser.cs" />
     <Compile Include="Core\Util\PublicResources.cs" />

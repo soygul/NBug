@@ -12,7 +12,7 @@ namespace NBug.Core.Util.Storage
 	/// <summary>
 	/// Unique class for compression/decompression file. Represents a Zip file.
 	/// </summary>
-	internal class ZipStorer : IDisposable
+	public class ZipStorer : IDisposable
 	{
 		#region Constants and Fields
 
@@ -330,7 +330,7 @@ namespace NBug.Core.Util.Storage
 			}
 
             var stream = new FileStream(_pathname, FileMode.Open, FileAccess.Read, _share);
-			this.AddStream(_method, _filenameInZip, stream, File.GetLastWriteTime(_pathname), _comment);
+            this.AddStream(_method, _filenameInZip, stream, File.GetLastWriteTime(_pathname), _comment);
 			stream.Close();
 		}
 
