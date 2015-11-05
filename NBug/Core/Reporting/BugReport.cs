@@ -49,6 +49,11 @@ namespace NBug.Core.Reporting
 					this.CreateReportZip(serializableException, report);
 				}
 
+                if (!(Settings.DeferredReportingOnApplicationExit && uiDialogResult.Execution == ExecutionFlow.BreakExecution)) 
+                {
+                    new NBug.Core.Submission.Dispatcher();
+                }
+
 				return uiDialogResult.Execution;
 			}
 			catch (Exception ex)

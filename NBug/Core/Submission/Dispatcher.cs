@@ -19,6 +19,13 @@ namespace NBug.Core.Submission
 
 	internal class Dispatcher
 	{
+        /// <summary>
+		/// Initializes a new instance of the Dispatcher class to send queued reports.
+		/// </summary>
+        public Dispatcher()
+            : this(Settings.DispatcherIsAsynchronous)
+        { }
+
 		/// <summary>
 		/// Initializes a new instance of the Dispatcher class to send queued reports.
 		/// </summary>
@@ -27,6 +34,8 @@ namespace NBug.Core.Submission
 		/// </param>
 		internal Dispatcher(bool isAsynchronous)
 		{
+            //TODO don't dispatch in the constructor. Make the method dispatch() public and handle isAsynchronous there
+
 			// Test if it has NOT been more than x many days since entry assembly was last modified)
 			// This is the exact verifier code in the BugReport.cs of CreateReportZip() function
 			if (Settings.StopReportingAfter < 0

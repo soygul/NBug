@@ -179,9 +179,9 @@ namespace NBug.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DeferredReporting {
+        public bool DeferredReportingOnApplicationExit {
             get {
-                return ((bool)(this["DeferredReporting"]));
+                return ((bool)(this["DeferredReportingOnApplicationExit"]));
             }
         }
     }

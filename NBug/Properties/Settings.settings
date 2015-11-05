@@ -91,7 +91,7 @@
 		<Setting Name="ReleaseMode" Type="System.Boolean" Scope="Application">
 			<Value Profile="(Default)">False</Value>
 		</Setting>
-		<Setting Name="DeferredReporting" Type="System.Boolean" Scope="Application">
+		<Setting Name="DeferredReportingOnApplicationExit" Type="System.Boolean" Scope="Application">
 			<Value Profile="(Default)">True</Value>
 		</Setting>
 	</Settings>
