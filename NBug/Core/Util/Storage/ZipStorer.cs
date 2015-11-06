@@ -12,7 +12,7 @@ namespace NBug.Core.Util.Storage
 	/// <summary>
 	/// Unique class for compression/decompression file. Represents a Zip file.
 	/// </summary>
-	internal class ZipStorer : IDisposable
+	public class ZipStorer : IDisposable
 	{
 		#region Constants and Fields
 
@@ -322,15 +322,15 @@ namespace NBug.Core.Util.Storage
 		/// <param name="_comment">
 		/// Comment for stored file
 		/// </param>
-		public void AddFile(Compression _method, string _pathname, string _filenameInZip, string _comment)
+        public void AddFile(Compression _method, string _pathname, string _filenameInZip, string _comment, FileShare _share = FileShare.Read)
 		{
 			if (this.Access == FileAccess.Read)
 			{
 				throw new InvalidOperationException("Writing is not alowed");
 			}
 
-			var stream = new FileStream(_pathname, FileMode.Open, FileAccess.Read);
-			this.AddStream(_method, _filenameInZip, stream, File.GetLastWriteTime(_pathname), _comment);
+            var stream = new FileStream(_pathname, FileMode.Open, FileAccess.Read, _share);
+            this.AddStream(_method, _filenameInZip, stream, File.GetLastWriteTime(_pathname), _comment);
 			stream.Close();
 		}
 
