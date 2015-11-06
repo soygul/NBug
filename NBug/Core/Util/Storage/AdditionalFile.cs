@@ -40,7 +40,7 @@ namespace NBug.Core.Util.Storage
         /// Add all additional files represented by this instance to the zip file using the zipStorer
         /// </summary>
         /// <param name="zipStorer"></param>
-        public void AddToZip(ZipStorer zipStorer)
+        internal void AddToZip(ZipStorer zipStorer)
         {
             // Join before spliting because the mask may have some folders inside it
             var fullPath = Path.Combine(Settings.NBugDirectory, FilePath);

@@ -12,7 +12,7 @@ namespace NBug.Core.Util.Storage
 	/// <summary>
 	/// Unique class for compression/decompression file. Represents a Zip file.
 	/// </summary>
-	public class ZipStorer : IDisposable
+	internal class ZipStorer : IDisposable
 	{
 		#region Constants and Fields
 
@@ -628,13 +628,13 @@ namespace NBug.Core.Util.Storage
 
 		/* DOS Date and time:
             MS-DOS date. The date is a packed value with the following format. Bits Description
-                0-4 Day of the month (1–31)
+                0-4 Day of the month (1ï¿½31)
                 5-8 Month (1 = January, 2 = February, and so on)
                 9-15 Year offset from 1980 (add 1980 to get actual year)
             MS-DOS time. The time is a packed value with the following format. Bits Description
                 0-4 Second divided by 2
-                5-10 Minute (0–59)
-                11-15 Hour (0–23 on a 24-hour clock)
+                5-10 Minute (0ï¿½59)
+                11-15 Hour (0ï¿½23 on a 24-hour clock)
         */
 
 		#region Methods
