@@ -418,7 +418,7 @@ namespace NBug
 		/// very uncomfortable to wait for bug reports to be sent after an application crash, so it is best to leave this feature on.
 		/// Default value is true.
 		/// </summary>
-		private static bool DeferredReporting { get; set; }
+		public static bool DeferredReporting { get; set; }
 
 		/// <summary>
 		/// Adds a destination based on a connection string.

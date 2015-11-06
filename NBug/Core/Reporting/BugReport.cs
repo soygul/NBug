@@ -49,6 +49,13 @@ namespace NBug.Core.Reporting
 					this.CreateReportZip(serializableException, report);
 				}
 
+                // If NBug is configured not to delay error reporting and user did not select to exit the app immediately,
+                // start dispatching the bug report right away
+                if (!Settings.DeferredReporting && uiDialogResult.Execution == ExecutionFlow.ContinueExecution)
+                {
+                    new NBug.Core.Submission.Dispatcher();
+                }
+
 				return uiDialogResult.Execution;
 			}
 			catch (Exception ex)
