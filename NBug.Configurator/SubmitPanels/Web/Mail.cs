@@ -76,13 +76,8 @@ namespace NBug.Configurator.SubmitPanels.Web
 
 				if (this.useAuthenticationCheckBox.Checked)
 				{
-					// Make sure that we can use authentication even with emtpy username and password
-					if (string.IsNullOrEmpty(this.usernameTextBox.Text))
-					{
-						mail.UseAuthentication = true;
-					}
-
-					mail.Username = this.usernameTextBox.Text;
+                    mail.UseAuthentication = true;
+                    mail.Username = this.usernameTextBox.Text;
 					mail.Password = this.passwordTextBox.Text;
 				}
 
