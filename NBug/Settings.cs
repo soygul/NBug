@@ -76,10 +76,10 @@ namespace NBug
 			// Crucial startup settings
 			Resources = new PublicResources();
 			EntryAssembly = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()) ?? Assembly.GetCallingAssembly();
-				
+
 				// GetEntryAssembly() is null if there is no initial GUI/CLI
 			NBugDirectory = Path.GetDirectoryName(Assembly.GetCallingAssembly().Location) ?? Environment.CurrentDirectory;
-			AdditionalReportFiles = new List<AdditionalFiles>();
+			AdditionalReportFiles = new List<AdditionalFile>();
 
 			// Default to developer mode settings. Settings this now so that any exception below will be handled with correct settings
 			ReleaseMode = false; // ToDo: This results initial config loading always setup to ThrowExceptions = true;
@@ -212,7 +212,7 @@ namespace NBug
 		/// <summary>
 		/// Gets or sets a list of additional files to be added to the report zip. The files can use * or ? in the same way as DOS modifiers.
 		/// </summary>
-        public static List<AdditionalFiles> AdditionalReportFiles { get; set; }
+        public static List<AdditionalFile> AdditionalReportFiles { get; set; }
 
 		public static ICollection<IProtocol> Destinations
 		{
@@ -539,7 +539,7 @@ namespace NBug
 				{
 					Logger.Error(
 						string.Format(
-							"There is a problem with the 'applicationSettings' section of the configuration file. The property read from the file '{0}' is undefined. This is probably a refactoring problem, or a malformed config file.", 
+							"There is a problem with the 'applicationSettings' section of the configuration file. The property read from the file '{0}' is undefined. This is probably a refactoring problem, or a malformed config file.",
 							property));
 				}
 			}
@@ -697,8 +697,8 @@ namespace NBug
 				config.Root.Element("connectionStrings")
 				      .Add(
 					      new XElement(
-						      "add", 
-						      new XAttribute("name", "NBug.Properties.Settings." + GetPropertyName(() => Cipher)), 
+						      "add",
+						      new XAttribute("name", "NBug.Properties.Settings." + GetPropertyName(() => Cipher)),
 						      new XAttribute("connectionString", Convert.ToBase64String(Cipher))));
 			}
 			else
@@ -766,9 +766,9 @@ namespace NBug
 			        .Element("NBug.Properties.Settings")
 			        .Add(
 				        new XElement(
-					        "setting", 
-					        new XAttribute("name", GetPropertyName(propertyExpression)), 
-					        new XAttribute("serializeAs", "String"), 
+					        "setting",
+					        new XAttribute("name", GetPropertyName(propertyExpression)),
+					        new XAttribute("serializeAs", "String"),
 					        new XElement("value", content)));
 		}
 
@@ -877,7 +877,7 @@ namespace NBug
 			catch (Exception exception)
 			{
 				throw new NBugRuntimeException(
-					"There is no internal default value supplied for '" + typeof(T).Name + "' or the supplied value is invalid. See the inner exception for details.", 
+					"There is no internal default value supplied for '" + typeof(T).Name + "' or the supplied value is invalid. See the inner exception for details.",
 					exception);
 			}
 		}
