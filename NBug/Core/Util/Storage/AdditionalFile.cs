@@ -20,7 +20,7 @@ namespace NBug.Core.Util.Storage
         /// </summary>
         public FileShare FileShare { get; set; }
 
-        public (String path)
+        public AdditionalFile(String path)
         {
             this.FilePath = path;
             FileShare = FileShare.Read;
