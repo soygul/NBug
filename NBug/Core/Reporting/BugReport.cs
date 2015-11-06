@@ -61,7 +61,7 @@ namespace NBug.Core.Reporting
 		// ToDo: PRIORITY TASK! This code needs more testing & condensation
 		private void AddAdditionalFiles(ZipStorer zipStorer)
 		{
-			foreach (AdditionalFile additionalFiles in Settings.AdditionalReportFiles)
+			foreach (FileMask additionalFiles in Settings.AdditionalReportFiles)
 			{
                 additionalFiles.AddToZip(zipStorer);				
 			}

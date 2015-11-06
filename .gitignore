@@ -106,3 +106,6 @@ UpgradeLog*.XML
 
 # NuGet
 packages/
+
+# MonoDevelop
+NBug.userprefs

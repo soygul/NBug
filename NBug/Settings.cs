@@ -79,7 +79,7 @@ namespace NBug
 
 				// GetEntryAssembly() is null if there is no initial GUI/CLI
 			NBugDirectory = Path.GetDirectoryName(Assembly.GetCallingAssembly().Location) ?? Environment.CurrentDirectory;
-			AdditionalReportFiles = new List<AdditionalFile>();
+			AdditionalReportFiles = new List<FileMask>();
 
 			// Default to developer mode settings. Settings this now so that any exception below will be handled with correct settings
 			ReleaseMode = false; // ToDo: This results initial config loading always setup to ThrowExceptions = true;
@@ -212,7 +212,7 @@ namespace NBug
 		/// <summary>
 		/// Gets or sets a list of additional files to be added to the report zip. The files can use * or ? in the same way as DOS modifiers.
 		/// </summary>
-        public static List<AdditionalFile> AdditionalReportFiles { get; set; }
+        public static List<FileMask> AdditionalReportFiles { get; set; }
 
 		public static ICollection<IProtocol> Destinations
 		{

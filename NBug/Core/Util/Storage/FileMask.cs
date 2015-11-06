@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NBug.Core.Util.Storage
 {
-    public class AdditionalFile
+    public class FileMask
     {
         /// <summary>
         /// Gets or sets a the file path. The files can use * or ? in the same way as DOS modifiers.
@@ -20,20 +20,20 @@ namespace NBug.Core.Util.Storage
         /// </summary>
         public FileShare FileShare { get; set; }
 
-        public AdditionalFile(String path)
+        public FileMask(String path)
         {
             this.FilePath = path;
             FileShare = FileShare.Read;
         }
 
-        public static implicit operator String(AdditionalFile o)
+        public static implicit operator String(FileMask o)
         {
             return o == null ? null : o.FilePath;
         }
 
-        public static implicit operator AdditionalFile(String o)
+        public static implicit operator FileMask(String o)
         {
-            return o == null ? null : new AdditionalFile(o);
+            return o == null ? null : new FileMask(o);
         }
 
         /// <summary>
