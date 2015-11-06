@@ -122,7 +122,7 @@ namespace NBug.Core.Submission.Web
 				this.UseAttachment = false;
 			}
 
-			// Make sure that we can use authentication even with emtpy username and password
+			// Make sure that we can use authentication even with emtpy password
 			if (!string.IsNullOrEmpty(this.Username))
 			{
 				this.UseAuthentication = true;
