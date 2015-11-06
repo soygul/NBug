@@ -51,7 +51,7 @@ namespace NBug.Core.Reporting
 
                 // If NBug is configured not to delay error reporting and user did not select to exit the app immediately,
                 // start dispatching the bug report right away
-                if (!(Settings.DeferredReporting && uiDialogResult.Execution == ExecutionFlow.BreakExecution)) 
+                if (!Settings.DeferredReporting && uiDialogResult.Execution == ExecutionFlow.ContinueExecution)
                 {
                     new NBug.Core.Submission.Dispatcher();
                 }
