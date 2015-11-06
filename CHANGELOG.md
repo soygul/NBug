@@ -1,5 +1,6 @@
 # TBD
 
+* Ability to send bug reports immediately
 * Improve ability to attach extra files to bug report.
 * Fix build on Mono.
 * Handle invalid/corrupt report files gracefully.
