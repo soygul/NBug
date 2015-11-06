@@ -27,7 +27,7 @@ namespace NBug
 			// Submit any queued reports on a seperate thread asynchronously, while exceptions handlers are being set);
 			if (!Settings.SkipDispatching)
 			{
-				new Dispatcher(Settings.DispatcherIsAsynchronous);
+				new Dispatcher();
 			}
 		}
 
@@ -145,14 +145,10 @@ namespace NBug
 			{
 				Logger.Trace("Starting to handle a System.Windows.Application.DispatcherUnhandledException.");
 				var executionFlow = new BugReport().Report(e.Exception, ExceptionThread.UI_WPF);
-				if (executionFlow == ExecutionFlow.BreakExecution)
-				{
-					e.Handled = true;
+                e.Handled = true;
+                if (executionFlow == ExecutionFlow.BreakExecution)
+				{					
 					Environment.Exit(0);
-				}
-				else if (executionFlow == ExecutionFlow.ContinueExecution)
-				{
-					e.Handled = true;
 				}
 			}
 		}
