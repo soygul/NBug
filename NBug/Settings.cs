@@ -779,7 +779,7 @@ namespace NBug
 				document.Root.Element("connectionStrings")
 				        .Add(
 					        new XElement(
-						        "add", new XAttribute("name", "NBug.Properties.Settings.Connection" + number), new XAttribute("connectionString", Encrypt(content))));
+						        "add", new XAttribute("name", "NBug.Properties.Settings.Destination" + number), new XAttribute("connectionString", Encrypt(content))));
 			}
 		}
 
