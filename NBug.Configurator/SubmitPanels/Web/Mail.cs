@@ -105,7 +105,7 @@ namespace NBug.Configurator.SubmitPanels.Web
 				this.useAttachmentCheckBox.Checked = mail.UseAttachment;
 				this.portNumericUpDown.Value = mail.Port;
 
-				if (this.portNumericUpDown.Value == 25 || this.portNumericUpDown.Value == 465 || mail.Port > 0)
+				if (this.portNumericUpDown.Value == 25 || this.portNumericUpDown.Value == 465 || mail.Port == 0)
 				{
 					this.defaultPortCheckBox.Checked = true;
 				}
