@@ -1,4 +1,4 @@
-# [![NBug](http://soygul.com/nbug/logo.png)](http://www.soygul.com/nbug/)
+# [![NBug](http://soygul.com/nbug/logo.png)](http://soygul.com/nbug/)
 
 [![Build Status](https://travis-ci.org/soygul/NBug.svg)](https://travis-ci.org/soygul/NBug)
 
@@ -9,7 +9,7 @@ NBug is a .NET library created to automate the bug reporting process. It automat
 It can also be set up as a user feedback system (i.e. feature requests).
 
 ## Quickstart
-Read the quickstart here: http://www.soygul.com/nbug/
+Read the quickstart here: http://soygul.com/nbug/
 
 In a typical scenario all you need is to add the NuGet package (or compile and use the `NBug.dll` directly, which is always more up-to-date) and add following to your application's `Program.cs` file (assuming it is a console app):
 
