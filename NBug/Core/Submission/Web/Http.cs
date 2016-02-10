@@ -12,6 +12,7 @@ namespace NBug.Core.Submission.Web
 	using NBug.Core.Util.Logging;
 	using NBug.Core.Util.Serialization;
 	using NBug.Core.Util.Web;
+    using NBug.Core.Util;
 
 	public class HttpFactory : IProtocolFactory
 	{
@@ -34,11 +35,17 @@ namespace NBug.Core.Submission.Web
 		public Http(string connectionString)
 			: base(connectionString)
 		{
+            var fields = ConnectionStringParser.Parse(connectionString);
+            this.PostReport = fields.ContainsKey(@"PostReport") && fields[@"PostReport"].Equals("true");
+            this.PostException = fields.ContainsKey(@"PostException") && fields[@"PostException"].Equals("true");
 		}
 
 		public Http()
 		{
 		}
+
+        public bool PostReport { get; set; }
+        public bool PostException { get; set; }
 
 		// Connection string format (single line)
 		// Warning: There should be no semicolon (;) or equals sign (=) used in any field.
@@ -80,7 +87,17 @@ namespace NBug.Core.Submission.Web
 			 */
 			file.Position = 0;
 
-			var response = StreamUpload.Create().Add(file, "file", fileName, "application/zip").Upload(this.Url).Response();
+            StreamUpload stream = StreamUpload.Create();            
+            if (PostReport)
+            {
+                stream.Add("report", report.ToString());
+            }
+            if (PostException)
+            {
+                stream.Add("exception", exception.ToString());
+            }
+            stream.Add(file, "file", fileName, "application/zip");
+			string response = stream.Upload(this.Url).Response();
 
 			Logger.Info("Response from HTTP server: " + response);
 			file.Position = 0;
