@@ -150,6 +150,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localization.ko-KR.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Localization.pl-PL.Designer.cs">
+      <DependentUpon>Localization.pl-PL.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Properties\Localization.pt-BR.Designer.cs">
       <DependentUpon>Localization.pt-BR.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -290,6 +295,10 @@
     <EmbeddedResource Include="Properties\Localization.ja.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.ja.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Localization.pl-PL.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.pl-PL.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Localization.pt-BR.resx">
       <Generator>ResXFileCodeGenerator</Generator>
