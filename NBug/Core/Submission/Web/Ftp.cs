@@ -45,7 +45,7 @@ namespace NBug.Core.Submission.Web
 
 		// Connection string format (single line)
 		// Warning: There should be no semicolon (;) or equals sign (=) used in any field except for password.
-		// Warning: No fild value value should contain the phrase 'password='
+		// Warning: No field value should contain the phrase 'password='
 		// Note: Url should be a full url with a trailing slash (/), like: ftp://....../
 
 		/* Type=FTP;
