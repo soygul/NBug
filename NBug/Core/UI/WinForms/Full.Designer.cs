@@ -80,7 +80,7 @@
 			this.mainTabs.Margin = new System.Windows.Forms.Padding(0);
 			this.mainTabs.Name = "mainTabs";
 			this.mainTabs.SelectedIndex = 0;
-			this.mainTabs.Size = new System.Drawing.Size(475, 361);
+			this.mainTabs.Size = new System.Drawing.Size(475, 364);
 			this.mainTabs.TabIndex = 0;
 			// 
 			// generalTabPage
@@ -105,7 +105,7 @@
 			this.generalTabPage.Location = new System.Drawing.Point(4, 22);
 			this.generalTabPage.Name = "generalTabPage";
 			this.generalTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.generalTabPage.Size = new System.Drawing.Size(467, 335);
+			this.generalTabPage.Size = new System.Drawing.Size(467, 338);
 			this.generalTabPage.TabIndex = 0;
 			this.generalTabPage.Text = "General";
 			this.generalTabPage.UseVisualStyleBackColor = true;
@@ -114,7 +114,7 @@
 			// 
 			this.warningLabel.Location = new System.Drawing.Point(64, 12);
 			this.warningLabel.Name = "warningLabel";
-			this.warningLabel.Size = new System.Drawing.Size(388, 43);
+			this.warningLabel.Size = new System.Drawing.Size(388, 58);
 			this.warningLabel.TabIndex = 18;
 			this.warningLabel.Text = resources.GetString("warningLabel.Text");
 			// 
@@ -122,7 +122,7 @@
 			// 
 			this.exceptionTypeLabel.Image = global::NBug.Properties.Resources.NBug_Icon_PNG_16;
 			this.exceptionTypeLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.exceptionTypeLabel.Location = new System.Drawing.Point(21, 69);
+			this.exceptionTypeLabel.Location = new System.Drawing.Point(21, 74);
 			this.exceptionTypeLabel.Name = "exceptionTypeLabel";
 			this.exceptionTypeLabel.Size = new System.Drawing.Size(106, 16);
 			this.exceptionTypeLabel.TabIndex = 17;
@@ -131,14 +131,14 @@
 			// 
 			// exceptionTextBox
 			// 
-			this.exceptionTextBox.Location = new System.Drawing.Point(135, 68);
+			this.exceptionTextBox.Location = new System.Drawing.Point(135, 73);
 			this.exceptionTextBox.Name = "exceptionTextBox";
 			this.exceptionTextBox.Size = new System.Drawing.Size(317, 20);
 			this.exceptionTextBox.TabIndex = 2;
 			// 
 			// descriptionTextBox
 			// 
-			this.descriptionTextBox.Location = new System.Drawing.Point(13, 267);
+			this.descriptionTextBox.Location = new System.Drawing.Point(13, 272);
 			this.descriptionTextBox.Multiline = true;
 			this.descriptionTextBox.Name = "descriptionTextBox";
 			this.descriptionTextBox.Size = new System.Drawing.Size(439, 60);
@@ -147,7 +147,7 @@
 			// errorDescriptionLabel
 			// 
 			this.errorDescriptionLabel.AutoSize = true;
-			this.errorDescriptionLabel.Location = new System.Drawing.Point(10, 251);
+			this.errorDescriptionLabel.Location = new System.Drawing.Point(10, 256);
 			this.errorDescriptionLabel.Name = "errorDescriptionLabel";
 			this.errorDescriptionLabel.Size = new System.Drawing.Size(315, 13);
 			this.errorDescriptionLabel.TabIndex = 14;
@@ -155,7 +155,7 @@
 			// 
 			// clrTextBox
 			// 
-			this.clrTextBox.Location = new System.Drawing.Point(307, 216);
+			this.clrTextBox.Location = new System.Drawing.Point(307, 221);
 			this.clrTextBox.Name = "clrTextBox";
 			this.clrTextBox.Size = new System.Drawing.Size(145, 20);
 			this.clrTextBox.TabIndex = 13;
@@ -163,7 +163,7 @@
 			// clrLabel
 			// 
 			this.clrLabel.AutoSize = true;
-			this.clrLabel.Location = new System.Drawing.Point(259, 219);
+			this.clrLabel.Location = new System.Drawing.Point(259, 224);
 			this.clrLabel.Name = "clrLabel";
 			this.clrLabel.Size = new System.Drawing.Size(31, 13);
 			this.clrLabel.TabIndex = 12;
@@ -171,7 +171,7 @@
 			// 
 			// dateTimeTextBox
 			// 
-			this.dateTimeTextBox.Location = new System.Drawing.Point(78, 216);
+			this.dateTimeTextBox.Location = new System.Drawing.Point(78, 221);
 			this.dateTimeTextBox.Name = "dateTimeTextBox";
 			this.dateTimeTextBox.Size = new System.Drawing.Size(145, 20);
 			this.dateTimeTextBox.TabIndex = 11;
@@ -179,7 +179,7 @@
 			// dateTimeLabel
 			// 
 			this.dateTimeLabel.AutoSize = true;
-			this.dateTimeLabel.Location = new System.Drawing.Point(10, 219);
+			this.dateTimeLabel.Location = new System.Drawing.Point(10, 224);
 			this.dateTimeLabel.Name = "dateTimeLabel";
 			this.dateTimeLabel.Size = new System.Drawing.Size(61, 13);
 			this.dateTimeLabel.TabIndex = 10;
@@ -187,7 +187,7 @@
 			// 
 			// nbugTextBox
 			// 
-			this.nbugTextBox.Location = new System.Drawing.Point(307, 182);
+			this.nbugTextBox.Location = new System.Drawing.Point(307, 187);
 			this.nbugTextBox.Name = "nbugTextBox";
 			this.nbugTextBox.Size = new System.Drawing.Size(145, 20);
 			this.nbugTextBox.TabIndex = 9;
@@ -195,7 +195,7 @@
 			// nbugLabel
 			// 
 			this.nbugLabel.AutoSize = true;
-			this.nbugLabel.Location = new System.Drawing.Point(259, 185);
+			this.nbugLabel.Location = new System.Drawing.Point(259, 190);
 			this.nbugLabel.Name = "nbugLabel";
 			this.nbugLabel.Size = new System.Drawing.Size(37, 13);
 			this.nbugLabel.TabIndex = 8;
@@ -203,7 +203,7 @@
 			// 
 			// applicationTextBox
 			// 
-			this.applicationTextBox.Location = new System.Drawing.Point(78, 182);
+			this.applicationTextBox.Location = new System.Drawing.Point(78, 187);
 			this.applicationTextBox.Name = "applicationTextBox";
 			this.applicationTextBox.Size = new System.Drawing.Size(145, 20);
 			this.applicationTextBox.TabIndex = 7;
@@ -211,7 +211,7 @@
 			// applicationLabel
 			// 
 			this.applicationLabel.AutoSize = true;
-			this.applicationLabel.Location = new System.Drawing.Point(10, 185);
+			this.applicationLabel.Location = new System.Drawing.Point(10, 190);
 			this.applicationLabel.Name = "applicationLabel";
 			this.applicationLabel.Size = new System.Drawing.Size(62, 13);
 			this.applicationLabel.TabIndex = 6;
@@ -219,7 +219,7 @@
 			// 
 			// targetSiteTextBox
 			// 
-			this.targetSiteTextBox.Location = new System.Drawing.Point(78, 148);
+			this.targetSiteTextBox.Location = new System.Drawing.Point(78, 153);
 			this.targetSiteTextBox.Name = "targetSiteTextBox";
 			this.targetSiteTextBox.Size = new System.Drawing.Size(374, 20);
 			this.targetSiteTextBox.TabIndex = 5;
@@ -227,7 +227,7 @@
 			// targetSiteLabel
 			// 
 			this.targetSiteLabel.AutoSize = true;
-			this.targetSiteLabel.Location = new System.Drawing.Point(10, 151);
+			this.targetSiteLabel.Location = new System.Drawing.Point(10, 156);
 			this.targetSiteLabel.Name = "targetSiteLabel";
 			this.targetSiteLabel.Size = new System.Drawing.Size(62, 13);
 			this.targetSiteLabel.TabIndex = 4;
@@ -235,7 +235,7 @@
 			// 
 			// exceptionMessageTextBox
 			// 
-			this.exceptionMessageTextBox.Location = new System.Drawing.Point(13, 98);
+			this.exceptionMessageTextBox.Location = new System.Drawing.Point(13, 103);
 			this.exceptionMessageTextBox.Multiline = true;
 			this.exceptionMessageTextBox.Name = "exceptionMessageTextBox";
 			this.exceptionMessageTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -256,7 +256,7 @@
 			this.exceptionTabPage.Location = new System.Drawing.Point(4, 22);
 			this.exceptionTabPage.Name = "exceptionTabPage";
 			this.exceptionTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.exceptionTabPage.Size = new System.Drawing.Size(467, 335);
+			this.exceptionTabPage.Size = new System.Drawing.Size(467, 338);
 			this.exceptionTabPage.TabIndex = 2;
 			this.exceptionTabPage.Text = "Exception";
 			this.exceptionTabPage.UseVisualStyleBackColor = true;
@@ -279,7 +279,7 @@
 			this.reportContentsTabPage.Location = new System.Drawing.Point(4, 22);
 			this.reportContentsTabPage.Name = "reportContentsTabPage";
 			this.reportContentsTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.reportContentsTabPage.Size = new System.Drawing.Size(467, 335);
+			this.reportContentsTabPage.Size = new System.Drawing.Size(467, 338);
 			this.reportContentsTabPage.TabIndex = 3;
 			this.reportContentsTabPage.Text = "Report Contents";
 			this.reportContentsTabPage.UseVisualStyleBackColor = true;
@@ -343,19 +343,18 @@
 			// 
 			this.sendAndQuitButton.Image = global::NBug.Properties.Resources.Send;
 			this.sendAndQuitButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.sendAndQuitButton.Location = new System.Drawing.Point(382, 374);
+			this.sendAndQuitButton.Location = new System.Drawing.Point(332, 377);
 			this.sendAndQuitButton.Name = "sendAndQuitButton";
-			this.sendAndQuitButton.Size = new System.Drawing.Size(102, 23);
+			this.sendAndQuitButton.Size = new System.Drawing.Size(152, 23);
 			this.sendAndQuitButton.TabIndex = 1;
 			this.sendAndQuitButton.Text = "&Send and Quit";
-			this.sendAndQuitButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.sendAndQuitButton.UseVisualStyleBackColor = true;
 			this.sendAndQuitButton.Click += new System.EventHandler(this.SendAndQuitButton_Click);
 			// 
 			// quitButton
 			// 
 			this.quitButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.quitButton.Location = new System.Drawing.Point(296, 374);
+			this.quitButton.Location = new System.Drawing.Point(246, 377);
 			this.quitButton.Name = "quitButton";
 			this.quitButton.Size = new System.Drawing.Size(75, 23);
 			this.quitButton.TabIndex = 2;
@@ -374,7 +373,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.quitButton;
-			this.ClientSize = new System.Drawing.Size(494, 403);
+			this.ClientSize = new System.Drawing.Size(494, 406);
 			this.Controls.Add(this.quitButton);
 			this.Controls.Add(this.sendAndQuitButton);
 			this.Controls.Add(this.mainTabs);
