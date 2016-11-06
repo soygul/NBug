@@ -68,12 +68,7 @@ namespace NBug.Configurator.SubmitPanels.Web
 
 					mail.Bcc = mail.Bcc.TrimEnd(new[] { ',' });
 				}
-
-				if (!this.defaultPortCheckBox.Checked)
-				{
-					mail.Port = (int)this.portNumericUpDown.Value;
-				}
-
+				
 				if (this.useAuthenticationCheckBox.Checked)
 				{
                     mail.UseAuthentication = true;
@@ -82,6 +77,7 @@ namespace NBug.Configurator.SubmitPanels.Web
 				}
 
 				mail.UseSsl = this.useSslCheckBox.Checked;
+				mail.Port = (int)this.portNumericUpDown.Value;
 				mail.UseAttachment = this.useAttachmentCheckBox.Checked;
 
 				return mail.ConnectionString;
