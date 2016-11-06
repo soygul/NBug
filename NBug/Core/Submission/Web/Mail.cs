@@ -45,8 +45,8 @@ namespace NBug.Core.Submission.Web
 
 		// Connection string format (single line)
 		// Warning: There should be no semicolon (;) or equals sign (=) used in any field except for password.
-		// Warning: Password filed should be the last item.
-		// Warning: No fild value value should contain the phrase 'password='
+		// Warning: The Password field should be the last item.
+		// Warning: No field value should contain the phrase 'password='
 		// Note: Normal ports may be 25/26 depending on the host!
 		// Note: Priority can be High, Normal, Low (Normal by default).
 

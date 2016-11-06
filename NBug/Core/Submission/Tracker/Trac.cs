@@ -20,7 +20,7 @@ namespace NBug.Core.Submission.Tracker
 
 		// Connection string format (single line)
 		// Warning: There should be no semicolon (;) or equals sign (=) used in any field except for password
-		// Warning: No fild value value should contain the phrase 'password='
+		// Warning: No field value value should contain the phrase 'password='
 		// Warning: XML-RPC.NET assembly should be referenced
 		// Note: Url should be a full url without a trailing slash (/), like: http://......
 		// Note: Anononymous URL is: http://trac-hacks.org/xmlrpc and authenticated URL is: http://trac-hacks.org/login/xmlrpc
