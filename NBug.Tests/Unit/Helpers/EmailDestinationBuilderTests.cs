@@ -2,6 +2,7 @@
 {
   using System.Net;
   using System.Net.Mail;
+  using Core.Submission.Web;
 
   using NBug.Helpers;
 
@@ -28,7 +29,7 @@
       // Assert
       var expected =
         string.Format(
-          "Type=Mail;From={0};To={1},{2};UseAttachment={3};SmtpServer={4};UseSSL=yes;Port=99;UseAuthentication=yes;Username={5};Password={6};", 
+          "Type=Mail;From={0};To={1},{2};UseAttachment={3};SmtpServer={4};UseSsl=true;Port=99;UseAuthentication=true;Username={5};Password={6};", 
           fromAddress.Address, 
           toAddress.Address, 
           anotherAddress.Address, 
@@ -57,7 +58,7 @@
       // Assert
       var expected =
         string.Format(
-          "Type=Mail;From={0};To={1},{2};UseAttachment={3};SmtpServer={4};UseSSL=no;Port=25;UseAuthentication=yes;Username={5};Password={6};", 
+          "Type=Mail;From={0};To={1},{2};UseAttachment={3};SmtpServer={4};UseSsl=false;Port=25;UseAuthentication=true;Username={5};Password={6};", 
           fromAddress.Address, 
           toAddress.Address, 
           anotherAddress.Address, 
@@ -84,7 +85,7 @@
       // Assert
       var expected =
         string.Format(
-          "Type=Mail;From={0};To={1},{2};UseAttachment={3};CustomBody={4};SmtpServer={5};UseSSL=yes;Port=465;UseAuthentication=no;", 
+          "Type=Mail;From={0};To={1},{2};UseAttachment={3};CustomBody={4};SmtpServer={5};UseSsl=true;Port=465;UseAuthentication=false;", 
           fromAddress.Address, 
           toAddress.Address, 
           anotherAddress.Address, 
@@ -110,7 +111,7 @@
       // Assert
       var expected =
         string.Format(
-          "Type=Mail;From={0};To={1},{2};UseAttachment={3};CustomSubject={4};SmtpServer={5};UseSSL=yes;Port=465;UseAuthentication=no;", 
+          "Type=Mail;From={0};To={1},{2};UseAttachment={3};CustomSubject={4};SmtpServer={5};UseSsl=true;Port=465;UseAuthentication=false;", 
           fromAddress.Address, 
           toAddress.Address, 
           anotherAddress.Address, 
@@ -136,7 +137,7 @@
       // Assert
       var expected =
         string.Format(
-          "Type=Mail;From={0};FromName={1};To={2},{3};UseAttachment={4};SmtpServer={5};UseSSL=yes;Port=465;UseAuthentication=no;", 
+          "Type=Mail;From={0};FromName={1};To={2},{3};UseAttachment={4};SmtpServer={5};UseSsl=true;Port=465;UseAuthentication=false;", 
           fromAddress.Address, 
           "Homer", 
           toAddress.Address, 
@@ -162,7 +163,7 @@
       // Assert
       var expected =
         string.Format(
-          "Type=Mail;From={0};To={1},{2};UseAttachment={3};SmtpServer={4};UseSSL=yes;Port=465;Priority={5};UseAuthentication=no;", 
+          "Type=Mail;From={0};To={1},{2};UseAttachment={3};SmtpServer={4};UseSsl=true;Port=465;Priority={5};UseAuthentication=false;", 
           fromAddress.Address, 
           toAddress.Address, 
           anotherAddress.Address, 
@@ -188,7 +189,7 @@
       // Assert
       var expected =
         string.Format(
-          "Type=Mail;From={0};To={1},{2};ReplyTo={3};UseAttachment={4};SmtpServer={5};UseSSL=yes;Port=465;UseAuthentication=no;", 
+          "Type=Mail;From={0};To={1},{2};ReplyTo={3};UseAttachment={4};SmtpServer={5};UseSsl=true;Port=465;UseAuthentication=false;", 
           fromAddress.Address, 
           toAddress.Address, 
           anotherAddress.Address, 
@@ -218,7 +219,7 @@
       // Assert
       var expected =
         string.Format(
-          "Type=Mail;From={0};To={1},{2};Bcc={3},{4};UseAttachment={5};SmtpServer={6};UseSSL=yes;Port=465;UseAuthentication=no;", 
+          "Type=Mail;From={0};To={1},{2};Bcc={3},{4};UseAttachment={5};SmtpServer={6};UseSsl=true;Port=465;UseAuthentication=false;", 
           fromAddress.Address, 
           toAddress.Address, 
           anotherAddress.Address, 
@@ -248,7 +249,7 @@
       // Assert
       var expected =
         string.Format(
-          "Type=Mail;From={0};To={1},{2};Cc={3},{4};UseAttachment={5};SmtpServer={6};UseSSL=yes;Port=465;UseAuthentication=no;", 
+          "Type=Mail;From={0};To={1},{2};Cc={3},{4};UseAttachment={5};SmtpServer={6};UseSsl=true;Port=465;UseAuthentication=false;", 
           fromAddress.Address, 
           toAddress.Address, 
           anotherAddress.Address, 
@@ -275,7 +276,7 @@
       // Assert
       var expected =
         string.Format(
-          "Type=Mail;From={0};To={1},{2};UseAttachment={3};SmtpServer={4};UseSSL=yes;Port=465;UseAuthentication=no;", 
+          "Type=Mail;From={0};To={1},{2};UseAttachment={3};SmtpServer={4};UseSsl=true;Port=465;UseAuthentication=false;", 
           fromAddress.Address, 
           toAddress.Address, 
           anotherAddress.Address, 
@@ -283,6 +284,30 @@
           ServerName);
 
       Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void BuildDefaultsToSecuredAnonymousConnectionWithAttachmentsTestUsingMailObject()
+    {
+      // Arrange
+      var fromAddress = new MailAddress("bar@test.com");
+      var toAddress = new MailAddress("foo@test.com");
+      var anotherAddress = new MailAddress("another@test.com");
+
+      // Act
+      var builder = new EmailDestinationBuilder(fromAddress, new[] { toAddress, anotherAddress }, ServerName);
+      builder = builder.SendAttachments();
+      string result = builder.Build();
+      Mail mail = new Mail(result);
+
+      // Assert
+      Assert.Equal("bar@test.com", mail.From);
+      Assert.Equal("foo@test.com,another@test.com", mail.To);
+      Assert.Equal(true, mail.UseAttachment);
+      Assert.Equal(ServerName, mail.SmtpServer);
+      Assert.Equal(true, mail.UseSsl);
+      Assert.Equal(465, mail.Port);
+      Assert.Equal(false, mail.UseAuthentication);
     }
   }
 }

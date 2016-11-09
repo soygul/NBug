@@ -70,10 +70,10 @@
      * CustomSubject=;
      * CustomBody=;
      * SmtpServer=smtp.gmail.com;
-     * UseSSL=yes;
+     * UseSSL=true;
      * Port=465;
      * Priority=;
-     * UseAuthentication=yes;
+     * UseAuthentication=true;
      * Username=my_tracker@gmail.com;
      * Password=mypassword;
      */
@@ -141,7 +141,7 @@
       sb.AppendFormat("SmtpServer={0};", _serverName);
 
       sb.Append("UseSSL=");
-      sb.Append(_useSsl ? "yes" : "no");
+      sb.Append(_useSsl ? "true" : "false");
       sb.Append(";");
 
       sb.AppendFormat("Port={0};", _smtpPort);
@@ -153,11 +153,11 @@
 
       if (string.IsNullOrEmpty(_smtpUserName))
       {
-        sb.Append("UseAuthentication=no;");
+        sb.Append("UseAuthentication=false;");
       }
       else
       {
-        sb.Append("UseAuthentication=yes;");
+        sb.Append("UseAuthentication=true;");
         sb.AppendFormat("Username={0};", _smtpUserName);
         sb.AppendFormat("Password={0};", _smtpUserPassword);
       }
