@@ -61,10 +61,10 @@ namespace NBug.Core.Submission.Web
 		 * CustomSubject=;
 		 * CustomBody=;
 		 * SmtpServer=smtp.gmail.com;
-		 * UseSSL=yes;
+		 * UseSSL=true;
 		 * Port=465;
 		 * Priority=;
-		 * UseAuthentication=yes;
+		 * UseAuthentication=true;
 		 * Username=my_tracker@gmail.com;
 		 * Password=mypassword;
 		 */
