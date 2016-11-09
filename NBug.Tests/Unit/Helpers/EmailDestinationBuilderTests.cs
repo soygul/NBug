@@ -284,5 +284,30 @@
 
       Assert.Equal(expected, result);
     }
+
+    [Fact]
+    public void BuildDefaultsToSecuredAnonymousConnectionWithAttachmentsTestUsingMailObject()
+    {
+      // Arrange
+      var fromAddress = new MailAddress("bar@test.com");
+      var toAddress = new MailAddress("foo@test.com");
+      var anotherAddress = new MailAddress("another@test.com");
+
+      // Act
+      var builder = new EmailDestinationBuilder(fromAddress, new[] { toAddress, anotherAddress }, ServerName);
+      builder = builder.SendAttachments();
+      string result = builder.Build();
+      Mail mail = new Mail(result);
+
+      // Assert
+      Assert.Equal("bar@test.com", mail.From);
+      Assert.Equal("foo@test.com,another@test.com", mail.To);
+      Assert.Equal(true, mail.UseAttachment);
+      Assert.Equal(ServerName, mail.SmtpServer);
+      Assert.Equal(true, mail.UseSsl);
+      Assert.Equal(465, mail.Port);
+      Assert.Equal(true, mail.UseAuthentication);
+    }
+
   }
 }
