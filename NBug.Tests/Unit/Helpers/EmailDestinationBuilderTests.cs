@@ -2,6 +2,7 @@
 {
   using System.Net;
   using System.Net.Mail;
+  using Core.Submission.Web;
 
   using NBug.Helpers;
 
