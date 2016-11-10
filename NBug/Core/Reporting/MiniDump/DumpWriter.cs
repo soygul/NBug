@@ -61,6 +61,14 @@ namespace NBug.Core.Reporting.MiniDump
 			}
 		}
 
+		/// <summary>
+		/// Check if this dump writer can write a dump file
+		/// </summary>
+		internal static bool CanWrite()
+		{
+			return Settings.MiniDumpType != MiniDumpType.None;
+		}
+
 		[DllImport("kernel32.dll", EntryPoint = "GetCurrentThreadId", ExactSpelling = true, SetLastError = true)]
 		private static extern uint GetCurrentThreadId();
 

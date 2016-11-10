@@ -108,6 +108,7 @@
       <DependentUpon>ExceptionDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Util\Storage\FileMask.cs" />
+    <Compile Include="Core\Util\Storage\NBugZipFile.cs" />
     <Compile Include="Core\Util\Web\StreamUpload.cs" />
     <Compile Include="Core\Util\ConnectionStringParser.cs" />
     <Compile Include="Core\Util\PublicResources.cs" />
