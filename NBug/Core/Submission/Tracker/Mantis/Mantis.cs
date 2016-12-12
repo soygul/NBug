@@ -178,7 +178,14 @@ namespace NBug.Core.Submission.Tracker.Mantis
                 AdditionalInformation = report.ToString();
             }
 
-            var service = new MantisConnectService(new BasicHttpBinding(), new EndpointAddress(Url));
+            var tlsBinding = new BasicHttpBinding();
+            tlsBinding.Security.Mode = BasicHttpSecurityMode.Transport;
+            tlsBinding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
+            tlsBinding.Security.Transport.ProxyCredentialType = HttpProxyCredentialType.None;
+
+            bool shouldUseTls = Url.StartsWith("https");
+
+            var service = new MantisConnectService(shouldUseTls ? tlsBinding : new BasicHttpBinding(), new EndpointAddress(Url));
             var user = service.mc_login(Username, Password);
             Logger.Info(String.Format("Successfully logged in to Mantis bug tracker as {0}", user.account_data.real_name));
             var issue = new IssueData();
