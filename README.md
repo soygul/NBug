@@ -29,11 +29,13 @@ After this, any unhandled exception will be formatted and sent to the configured
 ## Questions
 You can post your question on StackOverflow with NBug tag: http://stackoverflow.com/questions/tagged/nbug
 
-## Get it on [NuGet] (https://www.nuget.org/packages/NBug/)
+## Get it on [NuGet](https://www.nuget.org/packages/NBug/)
 
 ```powershell
 Install-Package NBug
 ```
+
+**Note**: NuGet versions tends to be outdated so it is better to compile the project yourself to get the latest changes.
 
 ## CodePlex Home
 Old (up to v1.1.1 release) project source is hosted at CodePlex, where you can find more information about the project: http://nbug.codeplex.com/
