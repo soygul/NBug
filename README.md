@@ -3,10 +3,17 @@
 [![Build Status](https://travis-ci.org/soygul/NBug.svg)](https://travis-ci.org/soygul/NBug)
 
 NBug is a .NET library created to automate the bug reporting process. It automatically creates and sends:
-* Bug reports,
-* Crash reports with minidump,
-* Error/exception reports with stack trace + ext. info.
-It can also be set up as a user feedback system (i.e. feature requests).
+
+* Bug reports.
+* Crash reports with minidump.
+* Error/exception reports with stack trace + ext. info. It can also be set up as a user feedback system (i.e. feature requests).
+
+Error reports can be sent to:
+
+* E-mail addresses.
+* HTTP(POST)/FTP servers.
+* Redmine/Mantis bug trackers.
+* Any custom destination via implementing the [`IProtocolFactory`](NBug/Core/Submission/IProtocolFactory.cs) interface. See the source code for example implementations.
 
 ## Quickstart
 Read the quickstart here: http://soygul.com/nbug/
