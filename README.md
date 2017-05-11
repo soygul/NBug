@@ -12,6 +12,7 @@ Error reports can be sent to:
 
 * E-mail addresses.
 * HTTP(POST)/FTP servers.
+* Azure Blob storage.
 * Redmine/Mantis bug trackers.
 * Any custom destination via implementing the [`IProtocolFactory`](NBug/Core/Submission/IProtocolFactory.cs) interface. See the source code for example implementations.
 
