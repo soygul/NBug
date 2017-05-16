@@ -46,15 +46,15 @@ namespace NBug.Core.Reporting
 				var uiDialogResult = UISelector.DisplayBugReportUI(exceptionThread, serializableException, report);
 				if (uiDialogResult.Report == SendReport.Send)
 				{
-					this.CreateReportZip(serializableException, report);
+					CreateReportZip(serializableException, report);
 				}
 
-                // If NBug is configured not to delay error reporting and user did not select to exit the app immediately,
-                // start dispatching the bug report right away
-                if (!Settings.DeferredReporting && uiDialogResult.Execution == ExecutionFlow.ContinueExecution)
-                {
-                    new NBug.Core.Submission.Dispatcher();
-                }
+				// If NBug is configured not to delay error reporting and user did not select to exit the app immediately,
+				// start dispatching the bug report right away
+				if (!Settings.DeferredReporting && uiDialogResult.Execution == ExecutionFlow.ContinueExecution)
+				{
+					new Submission.Dispatcher();
+				}
 
 				return uiDialogResult.Execution;
 			}
@@ -65,108 +65,114 @@ namespace NBug.Core.Reporting
 			}
 		}
 
-		// ToDo: PRIORITY TASK! This code needs more testing & condensation
-		private void AddAdditionalFiles(ZipStorer zipStorer)
-		{
-			foreach (FileMask additionalFiles in Settings.AdditionalReportFiles)
-			{
-                additionalFiles.AddToZip(zipStorer);				
-			}
-		}
-
-		
-
 		private void CreateReportZip(SerializableException serializableException, Report report)
 		{
-			// Test if it has NOT been more than x many days since entry assembly was last modified)
-			if (Settings.StopReportingAfter < 0
-			    || File.GetLastWriteTime(Settings.EntryAssembly.Location).AddDays(Settings.StopReportingAfter).CompareTo(DateTime.Now) > 0)
+			// Check if the max number of days to send bug reports has not been exceeded
+			int maxReportingDays = Settings.StopReportingAfter;
+			if (IsMaxReportingDaysExceeded(maxReportingDays))
 			{
-				// Test if there is already more than enough queued report files
-				if (Settings.MaxQueuedReports < 0 || Storer.GetReportCount() < Settings.MaxQueuedReports)
-				{
-					var reportFileName = "Exception_" + DateTime.UtcNow.ToFileTime() + ".zip";
-					var minidumpFilePath = Path.Combine(
-						Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Exception_MiniDump_" + DateTime.UtcNow.ToFileTime() + ".mdmp");
-
-					using (var storer = new Storer())
-					using (var zipStorer = ZipStorer.Create(storer.CreateReportFile(reportFileName), string.Empty))
-					using (var stream = new MemoryStream())
-					{
-						// Store the exception
-						var serializer = new XmlSerializer(typeof(SerializableException));
-						serializer.Serialize(stream, serializableException);
-						stream.Position = 0;
-						zipStorer.AddStream(ZipStorer.Compression.Deflate, StoredItemFile.Exception, stream, DateTime.UtcNow, string.Empty);
-
-						// Store the report
-						stream.SetLength(0);
-
-						try
-						{
-							serializer = report.CustomInfo != null
-								             ? new XmlSerializer(typeof(Report), new[] { report.CustomInfo.GetType() })
-								             : new XmlSerializer(typeof(Report));
-
-							serializer.Serialize(stream, report);
-						}
-						catch (Exception exception)
-						{
-							Logger.Error(
-								string.Format(
-									"The given custom info of type [{0}] cannot be serialized. Make sure that given type and inner types are XML serializable.", 
-									report.CustomInfo.GetType()), 
-								exception);
-							report.CustomInfo = null;
-							serializer = new XmlSerializer(typeof(Report));
-							serializer.Serialize(stream, report);
-						}
-
-						stream.Position = 0;
-						zipStorer.AddStream(ZipStorer.Compression.Deflate, StoredItemFile.Report, stream, DateTime.UtcNow, string.Empty);
-
-						// Add the memory minidump to the report file (only if configured so)
-						if (DumpWriter.Write(minidumpFilePath))
-						{
-							zipStorer.AddFile(ZipStorer.Compression.Deflate, minidumpFilePath, StoredItemFile.MiniDump, string.Empty);
-							File.Delete(minidumpFilePath);
-						}
-
-						// Add any user supplied files in the report (if any)
-						if (Settings.AdditionalReportFiles.Count != 0)
-						{
-							// ToDo: This needs a lot more work!
-							this.AddAdditionalFiles(zipStorer);
-						}
-					}
-
-					Logger.Trace("Created a new report file. Currently the number of report files queued to be send is: " + Storer.GetReportCount());
-				}
-				else
-				{
-					Logger.Trace(
-						"Current report count is at its limit as per 'Settings.MaxQueuedReports (" + Settings.MaxQueuedReports
-						+ ")' setting: Skipping bug report generation.");
-				}
+				HandleMaxReportingDaysExceeded();
+				return;
 			}
-			else
+
+			// Check the report zip files limit
+			int currentReportCount = Storer.GetReportCount();
+			if (IsMaxQueuedReportCountExceeded(currentReportCount))
 			{
-				Logger.Trace(
-					"As per setting 'Settings.StopReportingAfter(" + Settings.StopReportingAfter
-					+ ")', bug reporting feature was enabled for a certain amount of time which has now expired: Bug reporting is now disabled.");
-
-				// ToDo: Completely eliminate this with SettingsOverride.DisableReporting = true; since enumerating filesystem adds overhead);
-				if (Storer.GetReportCount() > 0)
-				{
-					Logger.Trace(
-						"As per setting 'Settings.StopReportingAfter(" + Settings.StopReportingAfter
-						+ ")', bug reporting feature was enabled for a certain amount of time which has now expired: Truncating all expired bug reports.");
-					Storer.TruncateReportFiles(0);
-				}
+				HandleMaxQueuedReportCountExceeded();
+				return;
 			}
+
+			// Create the zip file
+			using (var zipFile = NbugZipFile.Create(ZipReportFileName))
+			{
+				zipFile.AddException(serializableException);
+				zipFile.AddReport(report);
+				zipFile.AddMiniDump(MiniDumpFilePath);
+				zipFile.AddAdditionalReportFiles(Settings.AdditionalReportFiles);
+			}
+
+			Logger.Trace(
+				string.Format("Created a new report file. Currently the number of report files queued to be send is: {0}",
+				currentReportCount)
+		);
+	}
+
+		/// <summary>
+		/// Test if it has NOT been more than x many days since the entry assembly was last modified
+		/// </summary>
+		/// <returns></returns>
+		private bool IsMaxReportingDaysExceeded(int maxReportingDays)
+		{
+			var lastWriteTime = File.GetLastWriteTime(Settings.EntryAssembly.Location);
+			var maxReportingDate = lastWriteTime.AddDays(maxReportingDays);
+
+			return maxReportingDays >= 0 && DateTime.Now >= maxReportingDate;
 		}
 
-		private void WindowsScreenshot(Stream stream)
+		private static void HandleMaxReportingDaysExceeded()
+		{
+			int stopReportingDays = Settings.StopReportingAfter;
+
+			Logger.Trace(
+				string.Format(
+				"As per setting 'Settings.StopReportingAfter({0})', bug reporting feature was enabled for a certain amount of time which has now expired: Bug reporting is now disabled.",
+				stopReportingDays)
+			);
+
+			// Truncate all the bug reports files:
+			// ToDo: Completely eliminate this with SettingsOverride.DisableReporting = true; since enumerating filesystem adds overhead);
+			if (Storer.GetReportCount() > 0)
+			{
+				Logger.Trace(
+					string.Format(
+					"As per setting 'Settings.StopReportingAfter({0})', " +
+					"bug reporting feature was enabled for a certain amount of time which has now expired: Truncating all expired bug reports.",
+					stopReportingDays)
+				);
+
+				Storer.TruncateReportFiles(0);
+			}
+	}
+
+	/// <summary>
+	/// Test if there is already more than enough queued report files
+	/// </summary>
+	private bool IsMaxQueuedReportCountExceeded(int reportCount)
+	{
+		int maxQueuedReports = Settings.MaxQueuedReports;
+
+		return maxQueuedReports >= 0 && reportCount >= maxQueuedReports;
+	}
+
+	private void HandleMaxQueuedReportCountExceeded()
+	{
+		Logger.Trace(
+			string.Format(
+			"Current report count is at its limit as per 'Settings.MaxQueuedReports ({0})' setting: Skipping bug report generation.",
+			Settings.MaxQueuedReports)
+		);
+	}
+
+	private string ZipReportFileName
+	{
+		get
+		{
+			return "Exception_" + DateTime.UtcNow.ToFileTime() + ".zip";
+		}
+	}
+
+	private string MiniDumpFilePath
+	{
+		get
+		{
+			var filePath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+			var fileName = "Exception_MiniDump_" + DateTime.UtcNow.ToFileTime() + ".mdmp";
+			return Path.Combine(filePath, fileName);
+		}
+	}
+
+	private void WindowsScreenshot(Stream stream)
 		{
 			// Full
 			/*Rectangle bounds = Screen.GetBounds(Point.Empty);
