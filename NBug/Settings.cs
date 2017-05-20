@@ -578,8 +578,6 @@ namespace NBug
 						+ "' is undefined. This is probably a refactoring problem, or malformed config file.");
 				}
 			}
-
-			var x = _availableProtocols.Value;
 		}
 
 		/// <summary>

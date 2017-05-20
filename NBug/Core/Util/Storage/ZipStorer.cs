@@ -16,15 +16,17 @@ namespace NBug.Core.Util.Storage
 	{
 		#region Constants and Fields
 
+#pragma warning disable 0649
 		/// <summary>
 		///   True if UTF8 encoding for filename and comments, false if default (CP 437)
 		/// </summary>
 		public bool EncodeUTF8;
 
 		/// <summary>
-		///   Force deflate algotithm even if it inflates the stored file. Off by default.
+		///   Force deflate algorithm even if it inflates the stored file. Off by default.
 		/// </summary>
 		public bool ForceDeflating;
+#pragma warning restore 0649
 
 		/// <summary>
 		///   The crc table.
@@ -322,7 +324,8 @@ namespace NBug.Core.Util.Storage
 		/// <param name="_comment">
 		/// Comment for stored file
 		/// </param>
-        public void AddFile(Compression _method, string _pathname, string _filenameInZip, string _comment, FileShare _share = FileShare.Read)
+		/// <param name="_share"></param>
+		public void AddFile(Compression _method, string _pathname, string _filenameInZip, string _comment, FileShare _share = FileShare.Read)
 		{
 			if (this.Access == FileAccess.Read)
 			{
@@ -357,17 +360,6 @@ namespace NBug.Core.Util.Storage
 			if (this.Access == FileAccess.Read)
 			{
 				throw new InvalidOperationException("Writing is not alowed");
-			}
-
-			long offset;
-			if (this.Files.Count == 0)
-			{
-				offset = 0;
-			}
-			else
-			{
-				ZipFileEntry last = this.Files[this.Files.Count - 1];
-				offset = last.HeaderOffset + last.HeaderSize;
 			}
 
 			// Prepare the fileinfo
