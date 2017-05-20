@@ -324,7 +324,8 @@ namespace NBug.Core.Util.Storage
 		/// <param name="_comment">
 		/// Comment for stored file
 		/// </param>
-        public void AddFile(Compression _method, string _pathname, string _filenameInZip, string _comment, FileShare _share = FileShare.Read)
+		/// <param name="_share"></param>
+		public void AddFile(Compression _method, string _pathname, string _filenameInZip, string _comment, FileShare _share = FileShare.Read)
 		{
 			if (this.Access == FileAccess.Read)
 			{
