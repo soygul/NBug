@@ -46,6 +46,19 @@ namespace NBug
 		/// </summary>
 		internal static Delegate CustomUIHandle;
 
+		internal static IEnumerable<Type> GetLoadableTypes(Assembly assembly)
+		{
+			if (assembly == null) throw new ArgumentNullException(nameof(assembly));
+			try
+			{
+				return assembly.GetTypes();
+			}
+			catch (ReflectionTypeLoadException e)
+			{
+				return e.Types.Where(t => t != null);
+			}
+		}
+
 		/// <summary>
 		/// Lookup for quickly finding the type to instantiate for a given connection string type.
 		///
@@ -59,7 +72,7 @@ namespace NBug
 					var type = typeof(IProtocolFactory);
 					return
 						AppDomain.CurrentDomain.GetAssemblies()
-						         .SelectMany(s => s.GetTypes())
+						         .SelectMany(s => GetLoadableTypes(s))
 						         .Where(type.IsAssignableFrom)
 						         .Where(t => t.IsClass)
 						         .Where(t => !t.IsAbstract)
