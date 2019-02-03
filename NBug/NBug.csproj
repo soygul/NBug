@@ -59,6 +59,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -72,6 +73,24 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Core\Reporting\SystemInfo\BIOS.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\ComputerSystem.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\Disk.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\HotFixes.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\LogicalDisk.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\NetworkAdapter.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\OS.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\Printer.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\Processor.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\QueryArea.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\SoundCard.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\SysInfoQueries.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\SysInfoQuery.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\SysInfoResult.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\SysInfoResultMapper.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\SysInfoRetriever.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\VideoController.cs" />
+    <Compile Include="Core\Reporting\SystemInfo\WMIHelper.cs" />
     <Compile Include="Core\Submission\Custom\Custom.cs" />
     <Compile Include="Core\Submission\IProtocol.cs" />
     <Compile Include="Core\Submission\IProtocolFactory.cs" />

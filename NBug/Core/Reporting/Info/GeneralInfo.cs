@@ -9,8 +9,8 @@ namespace NBug.Core.Reporting.Info
 	using System;
 	using System.Diagnostics;
 	using System.Reflection;
-
-	using NBug.Core.Util.Serialization;
+    using NBug.Core.Reporting.SystemInfo;
+    using NBug.Core.Util.Serialization;
 
 	[Serializable]
 	public class GeneralInfo
@@ -38,7 +38,12 @@ namespace NBug.Core.Reporting.Info
 
 			this.DateTime = System.DateTime.UtcNow.ToString();
 
-			if (serializableException != null)
+            SystemOS = WMIHelper.FillOSInformation(Environment.MachineName, null, null, nameof(QueryAreaDescription.Win32_OperatingSystem));
+            SystemHotFixes = WMIHelper.FillHotFixes(Environment.MachineName, null, null, nameof(QueryAreaDescription.Win32_QuickFixEngineering));
+            SystemProcessor = WMIHelper.FillProcessorInformation(Environment.MachineName, null, null, nameof(QueryAreaDescription.Win32_Processor));
+            SystemVideoController = WMIHelper.FillVideoController(Environment.MachineName, null, null, nameof(QueryAreaDescription.Win32_VideoController));
+
+            if (serializableException != null)
 			{
 				this.ExceptionType = serializableException.Type;
 
@@ -78,5 +83,14 @@ namespace NBug.Core.Reporting.Info
 		public string TargetSite { get; set; }
 
 		public string UserDescription { get; set; }
-	}
+
+        public OS SystemOS { get; set; }
+
+        public HotFixes[] SystemHotFixes { get; set; }
+
+        public Processor[] SystemProcessor { get; set; }
+
+        public VideoController[] SystemVideoController { get; set; }
+
+    }
 }
