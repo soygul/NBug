@@ -1,6 +1,13 @@
-# [![NBug](http://soygul.com/nbug/logo.png)](http://soygul.com/nbug/)
+﻿# [![NBug](http://soygul.com/nbug/logo.png)](http://soygul.com/nbug/)
 
-[![Build Status](https://travis-ci.org/soygul/NBug.svg)](https://travis-ci.org/soygul/NBug)
+# News for this fork
+
+- KISS Principles.
+- Upgrade to .net 4.8
+- New detailed system info with WMI.
+- Fix configurator HDPI monitors.
+
+***
 
 NBug is a .NET library created to automate the bug reporting process. It automatically creates and sends:
 
@@ -47,3 +54,9 @@ Install-Package NBug
 
 ## CodePlex Home
 Old (up to v1.1.1 release) project source is hosted at CodePlex, where you can find more information about the project: http://nbug.codeplex.com/
+
+## License
+
+This project is licensed under the MIT - see the [LICENSE.md](/LICENSE.md) file for details.
+
+Changes Made with ❤️ by [Javier Cañon](https://www.javiercanon.com).

@@ -19,7 +19,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBug.Tests", "NBug.Tests\NB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{26B9F5D5-286F-4C6E-AB2C-5B817053D8DC}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		Build Comments.txt = Build Comments.txt
+		CHANGELOG.md = CHANGELOG.md
 		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
+		LICENSE.md = LICENSE.md
+		README.md = README.md
 		Settings.StyleCop = Settings.StyleCop
 		Signing.snk = Signing.snk
 		ToDo.txt = ToDo.txt
@@ -37,6 +42,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Destinations", "Destinations", "{643C26DA-0C14-4F95-9F95-4A3A946D03D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBug.Destinations.AzureBlobStorage", "Destinations\NBug.Destinations.AzureBlobStorage\NBug.Destinations.AzureBlobStorage.csproj", "{B5F98A29-817D-4186-A812-1B6A7B08108D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Comments", "Comments", "{2395FC1D-C898-4D7C-9F24-DE339DD43773}"
+	ProjectSection(SolutionItems) = preProject
+		Build Comments.txt = Build Comments.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
