@@ -16,6 +16,8 @@ Error reports can be sent to:
 * Redmine/Mantis bug trackers.
 * Any custom destination via implementing the [`IProtocolFactory`](NBug/Core/Submission/IProtocolFactory.cs) interface. See the source code for example implementations.
 
+It has been successfully used in many projects including [Git Extensions](https://github.com/gitextensions/gitextensions), as well as my own projects.
+
 ## Quickstart
 Read the quickstart here: http://soygul.com/nbug/
 
